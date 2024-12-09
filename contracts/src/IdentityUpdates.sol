@@ -6,9 +6,9 @@ contract IdentityUpdates {
 
     uint64 sequenceId;
 
-    function addIdentityUpdate(bytes32 inboxId, bytes memory update) public {
+    function addIdentityUpdate(bytes32 inboxIddd, bytes memory update) public {
         sequenceId++;
 
-        emit IdentityUpdateCreated(inboxId, update, sequenceId);
+        emit IdentityUpdateCreated(inboxIddd, update, sequenceId);
     }
 }
