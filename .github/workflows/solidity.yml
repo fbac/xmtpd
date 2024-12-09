@@ -37,9 +37,6 @@ jobs:
       - name: Build contracts
         run: forge build
 
-      - run: |
-          which forge
-
       - name: Cache data
         uses: actions/cache@v4
         with:
@@ -71,8 +68,7 @@ jobs:
           name: forge
           path: /usr/local/bin
 
-      - run: |
-          which forge
+      - run: chmod +x /usr/local/bin/forge
 
       - name: Run Forge tests
         run: forge test -vvv
