@@ -44,18 +44,13 @@ jobs:
           key: ci-solidity-${{ github.ref }}
 
       - id: forge
-        run: echo "FORGE_PATH=$(which forge)" >> $GITHUB_ENV
-
-      - name: Debug forge2 path
-        run: |
-          echo "Forge path: ${FORGE_PATH}"
-          ls -l ${FORGE_PATH}
+        run: echo "FORGE_PATH=$(which forge)" >> $GITHUB_OUTPUT
 
       - name: Upload forge
         uses: actions/upload-artifact@v4
         with:
           name: forge
-          path: ${FORGE_PATH}
+          path: ${{ steps.forge.outputs.FORGE_PATH }}
 
   contracts-test:
     needs: contracts-init
