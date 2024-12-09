@@ -23,7 +23,7 @@ contract Nodes is ERC721, Ownable {
     struct Node {
         bytes signingKeyPub;
         string httpAddress;
-        bool isHealthy;
+        bool isHealthyTest;
     }
 
     struct NodeWithId {
@@ -78,10 +78,10 @@ contract Nodes is ERC721, Ownable {
      *
      * No one else is allowed to call this function.
      */
-    function updateHealth(uint256 tokenId, bool isHealthy) public onlyOwner {
+    function updateHealth(uint256 tokenId, bool isHealthyTest) public onlyOwner {
         // Make sure that the token exists
         _requireOwned(tokenId);
-        _nodes[tokenId].isHealthy = isHealthy;
+        _nodes[tokenId].isHealthyTest = isHealthyTest;
         _emitNodeUpdate(tokenId);
     }
 
@@ -94,7 +94,7 @@ contract Nodes is ERC721, Ownable {
         // First, count the number of healthy nodes
         for (uint256 i = 0; i < _nodeCounter; i++) {
             uint256 nodeId = NODE_INCREMENT * (i + 1);
-            if (_nodeExists(nodeId) && _nodes[nodeId].isHealthy) {
+            if (_nodeExists(nodeId) && _nodes[nodeId].isHealthyTest) {
                 healthyCount++;
             }
         }
@@ -106,7 +106,7 @@ contract Nodes is ERC721, Ownable {
         // Populate the array with healthy nodes
         for (uint32 i = 0; i < _nodeCounter; i++) {
             uint32 nodeId = NODE_INCREMENT * (i + 1);
-            if (_nodeExists(nodeId) && _nodes[nodeId].isHealthy) {
+            if (_nodeExists(nodeId) && _nodes[nodeId].isHealthyTest) {
                 healthyNodesList[currentIndex] = NodeWithId({nodeId: nodeId, node: _nodes[nodeId]});
                 currentIndex++;
             }

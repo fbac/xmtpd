@@ -26,7 +26,7 @@ contract NodesTest is Test {
     }
 
     function _randomNode(bool isHealthy) internal pure returns (Nodes.Node memory) {
-        return Nodes.Node({signingKeyPub: _genBytes(32), httpAddress: _genString(32), isHealthy: isHealthy});
+        return Nodes.Node({signingKeyPub: _genBytes(32), httpAddress: _genString(32), isHealthyTest: isHealthy});
     }
 
     function test_canAddNode() public {
@@ -39,7 +39,7 @@ contract NodesTest is Test {
         vm.assertEq(nodes.ownerOf(nodeId), operatorAddress);
         vm.assertEq(nodes.getNode(nodeId).signingKeyPub, node.signingKeyPub);
         vm.assertEq(nodes.getNode(nodeId).httpAddress, node.httpAddress);
-        vm.assertEq(nodes.getNode(nodeId).isHealthy, true);
+        vm.assertEq(nodes.getNode(nodeId).isHealthyTest, true);
     }
 
     function test_increments100() public {
@@ -95,7 +95,7 @@ contract NodesTest is Test {
 
         nodes.updateHealth(nodeId, false);
 
-        vm.assertEq(nodes.getNode(nodeId).isHealthy, false);
+        vm.assertEq(nodes.getNode(nodeId).isHealthyTest, false);
         vm.assertEq(nodes.healthyNodes().length, 0);
     }
 
