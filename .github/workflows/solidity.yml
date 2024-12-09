@@ -104,6 +104,14 @@ jobs:
           path: contracts
           key: ci-solidity-${{ github.ref }}
 
+      - name: Restore forge
+        uses: actions/download-artifact@v4
+        with:
+          name: forge
+          path: /usr/local/bin
+
+      - run: chmod +x /usr/local/bin/forge
+
       - name: Install Slither
         run: pip3 install slither-analyzer
 
