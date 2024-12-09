@@ -66,6 +66,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: forge
+          path: $GITHUB_PATH
 
       - name: Run Forge tests
         run: forge test -vvv
