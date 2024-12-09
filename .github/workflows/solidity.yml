@@ -66,8 +66,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: forge
+          path: contracts
 
-      - run: echo "$PWD/forge" >> $GITHUB_PATH
+      - run: echo "contracts/forge" >> $GITHUB_PATH
 
       - name: Run Forge tests
         run: forge test -vvv
