@@ -19,7 +19,7 @@ defaults:
     working-directory: contracts
 
 jobs:
-  contracts-init:
+  init:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
@@ -52,8 +52,8 @@ jobs:
           name: forge
           path: ${{ steps.forge.outputs.FORGE_PATH }}
 
-  contracts-test:
-    needs: contracts-init
+  test:
+    needs: init
     runs-on: ubuntu-latest
     steps:
       - name: Restore cache
@@ -72,3 +72,45 @@ jobs:
 
       - name: Run Forge tests
         run: forge test -vvv
+
+  lint:
+    needs: init
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: contracts
+          key: ci-solidity-${{ github.ref }}
+
+      - name: Restore forge
+        uses: actions/download-artifact@v4
+        with:
+          name: forge
+          path: /usr/local/bin
+
+      - run: chmod +x /usr/local/bin/forge
+
+      - name: Run Forge fmt
+        run: forge fmt contracts/src --check
+
+  slither:
+    needs: init
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: contracts
+          key: ci-solidity-${{ github.ref }}
+
+      - name: Install Slither
+        run: pip3 install slither-analyzer
+
+      - name: Run Slither
+        run: slither . --sarif output.sarif
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: contracts/output.sarif
