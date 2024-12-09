@@ -66,9 +66,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: forge
-          path: contracts
+          path: ${{ github.workspace }}
 
-      - run: echo "contracts/forge" >> $GITHUB_PATH
+      - run: echo "${{ github.workspace }}/forge" >> $GITHUB_PATH
 
       - name: Run Forge tests
         run: forge test -vvv
