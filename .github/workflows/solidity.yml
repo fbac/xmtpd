@@ -66,9 +66,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: forge
-          path: ${{ github.workspace }}
+          path: /usr/local/bin
 
-      - run: echo "${{ github.workspace }}/forge" >> $GITHUB_PATH
+      - run: chmod +x $(which forge)
 
       - name: Run Forge tests
         run: forge test -vvv
