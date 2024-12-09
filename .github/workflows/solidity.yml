@@ -68,7 +68,8 @@ jobs:
           name: forge
           path: /usr/local/bin
 
-      - run: chmod +x $(which forge)
+      - run: |
+          which forge
 
       - name: Run Forge tests
         run: forge test -vvv
