@@ -121,3 +121,39 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: contracts/output.sarif
+
+  abis:
+    needs: init
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore cache
+        uses: actions/cache/restore@v4
+        with:
+          path: contracts
+          key: ci-solidity-${{ github.ref }}
+
+      - name: Restore forge
+        uses: actions/download-artifact@v4
+        with:
+          name: forge
+          path: /usr/local/bin
+
+      - run: chmod +x /usr/local/bin/forge
+
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: go.mod
+
+      - name: Install abigen
+        run: go install github.com/ethereum/go-ethereum/cmd/abigen@v1.14.12
+
+      - name: Generate bindings
+        run: contracts/dev/generate
+
+      - name: Check for file changes
+        run: |
+          git diff --name-only | grep -q 'contracts/pkg/'
+          if [ $? -eq 0 ]; then
+            echo "ERROR: Generated files are not up to date. Please run 'contracts/dev/generate' and commit the changes."
+            exit 1
+          fi
