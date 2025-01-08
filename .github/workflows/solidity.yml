@@ -137,7 +137,16 @@ jobs:
           path: contracts
           key: ci-solidity-${{ github.ref }}
 
-      - uses: actions/setup-go@v5
+      - name: Restore forge
+        uses: actions/download-artifact@v4
+        with:
+          name: forge
+          path: /usr/local/bin
+
+      - run: chmod +x /usr/local/bin/forge
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
 
       - name: Install abigen
         run: go install github.com/ethereum/go-ethereum/cmd/abigen@v1.14.12
