@@ -126,6 +126,11 @@ jobs:
     needs: init
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Restore cache
         uses: actions/cache/restore@v4
         with:
@@ -140,20 +145,21 @@ jobs:
 
       - run: chmod +x /usr/local/bin/forge
 
-      - uses: actions/setup-go@v3
-        with:
-          go-version-file: go.mod
+      - name: Setup Go
+        uses: actions/setup-go@v5
 
       - name: Install abigen
         run: go install github.com/ethereum/go-ethereum/cmd/abigen@v1.14.12
 
-      - name: Generate bindings
-        run: contracts/dev/generate
+      - name: Generate ABIs
+        run: dev/generate
 
-      - name: Check for file changes
+      - name: Check for ABI changes
+        working-directory: ${{ github.workspace }}
         run: |
-          git diff --name-only | grep -q 'contracts/pkg/'
-          if [ $? -eq 0 ]; then
+          if git diff --exit-code --ignore-space-change --ignore-all-space --ignore-cr-at-eol -- contracts/pkg; then
+            echo "No ABI changes detected."
+          else
             echo "ERROR: Generated files are not up to date. Please run 'contracts/dev/generate' and commit the changes."
             exit 1
           fi
