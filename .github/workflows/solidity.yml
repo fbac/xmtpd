@@ -140,9 +140,7 @@ jobs:
 
       - run: chmod +x /usr/local/bin/forge
 
-      - uses: actions/setup-go@v3
-        with:
-          go-version-file: go.mod
+      - uses: actions/setup-go@v5
 
       - name: Install abigen
         run: go install github.com/ethereum/go-ethereum/cmd/abigen@v1.14.12
