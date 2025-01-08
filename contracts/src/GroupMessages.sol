@@ -35,7 +35,7 @@ contract GroupMessages is Initializable, AccessControlUpgradeable, UUPSUpgradeab
 
     /// @dev Reserved storage gap for future upgrades
     // slither-disable-next-line unused-state,naming-convention
-    uint256[50] private __gap;
+    uint256[50] private __g;
 
     // Initialization
     /// @notice Initializes the contract with the deployer as admin.
