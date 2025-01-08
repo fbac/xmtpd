@@ -145,10 +145,10 @@ jobs:
       - name: Install abigen
         run: go install github.com/ethereum/go-ethereum/cmd/abigen@v1.14.12
 
-      - name: Generate bindings
-        run: contracts/dev/generate
+      - name: Generate ABIs
+        run: dev/generate
 
-      - name: Check for file changes
+      - name: Check for ABI changes
         run: |
           git diff --name-only | grep -q 'contracts/pkg/'
           if [ $? -eq 0 ]; then
