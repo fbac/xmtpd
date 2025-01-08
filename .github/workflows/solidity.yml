@@ -157,8 +157,9 @@ jobs:
       - name: Check for ABI changes
         working-directory: ${{ github.workspace }}
         run: |
-          git diff --exit-code --ignore-space-change --ignore-all-space --ignore-cr-at-eol -- contracts/pkg
-          if [ $? -ne 0 ]; then
+          if git diff --exit-code --ignore-space-change --ignore-all-space --ignore-cr-at-eol -- contracts/pkg &> /dev/null; then
+            echo "No ABI changes detected."
+          else
             echo "ERROR: Generated files are not up to date. Please run 'contracts/dev/generate' and commit the changes."
             exit 1
           fi
