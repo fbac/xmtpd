@@ -155,8 +155,9 @@ jobs:
         run: dev/generate
 
       - name: list
-        working-directory: contracts
+        working-directory: ${{ github.workspace }}
         run: |
+          git status
           ls -la .
           ls -la contracts
 
