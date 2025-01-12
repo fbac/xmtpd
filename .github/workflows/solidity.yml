@@ -154,6 +154,12 @@ jobs:
       - name: Generate ABIs
         run: dev/generate
 
+      - name: list
+        working-directory: contracts
+        run: |
+          ls -la .
+          ls -la contracts
+
       - name: Check for ABI changes
         working-directory: ${{ github.workspace }}
         run: |
