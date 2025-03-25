@@ -10,6 +10,12 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
+      - shell: bash
+        env:
+          SUPER_SECRET: ${{ secrets.NIGHTLY_AUTOMATION_TOKEN }}
+        run: |
+          example-command "$SUPER_SECRET"
+
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
       - name: Generate Protos
