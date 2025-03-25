@@ -12,9 +12,9 @@ jobs:
     steps:
       - shell: bash
         env:
-          SUPER_SECRET: ${{ secrets.NIGHTLY_AUTOMATION_TOKEN }}
+          NIGHTLY_AUTOMATION_TOKEN: ${{ secrets.NIGHTLY_AUTOMATION_TOKEN }}
         run: |
-          example-command "$SUPER_SECRET"
+          echo "$NIGHTLY_AUTOMATION_TOKEN"
 
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
